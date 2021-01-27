@@ -14,7 +14,7 @@ objs/%.o: src/%.c
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(OUTPUT): $(OBJS)
-	$(CC) $^ -o $(OUTPUT) $(CFLAGS) $(LDFLAGS)
+	$(CC) $^ -o $(OUTPUT) $(LDFLAGS)
 
 .PHONY: clean
 clean:
@@ -23,3 +23,15 @@ clean:
 .PHONY: debug
 debug: CFLAGS += -D__DEBUG -g -O0
 debug: default
+
+.PHONY: test
+test: CFLAGS += -D__TEST -g -O0
+test: debug
+
+.PHONY: perf
+perf: CFLAGS += -g -O3 -DNDEBUG
+perf: clean default
+
+.PHONY: perftest
+perftest: CFLAGS += -D__TEST -g -DNDEBUG -DPERFTEST -O3
+perftest: default
