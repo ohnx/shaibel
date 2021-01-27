@@ -1,4 +1,4 @@
-OUTPUT:=main
+OUTPUT:=shaibel
 CFLAGS+=-Wall -Werror -Iinclude/ -ansi -pedantic
 LIBS=
 LDFLAGS+=
