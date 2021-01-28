@@ -52,7 +52,7 @@ static void search_prepare(searchparams_t *params, board_t *pos) {
 
 /* pick the next best move in the move list and shuffle it to the front */
 static void search_reorder_best_move(uint32_t moves_so_far, movelist_t *moves) {
-    uint32_t i, best_idx = 0;
+    uint32_t i, best_idx = MOVELIST_MAX_LEN;
     int best_score = 0;
     move_t tmp;
 
@@ -67,13 +67,16 @@ static void search_reorder_best_move(uint32_t moves_so_far, movelist_t *moves) {
         }
     }
 
+    /* no move to swap in */
+    if (best_idx == MOVELIST_MAX_LEN) return;
+
     /* swap the move in to the next slot */
     tmp = moves->moves[moves_so_far];
     moves->moves[moves_so_far] = moves->moves[best_idx];
     moves->moves[best_idx] = tmp;
 }
 
-/* */
+/* search only capturing moves */
 static int search_quiescence(searchparams_t *params, board_t *pos, int alpha, int beta) {
     movelist_t moves;
     int old_alpha = alpha;
